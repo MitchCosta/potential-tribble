@@ -37,6 +37,9 @@ on:
 permissions:
   contents: read
   packages: write
+  # This is used to complete the identity challenge
+  # with sigstore/fulcio when running outside of PRs.
+  id-token: write
 
 jobs:
   build:
@@ -55,8 +58,8 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ github.token }}
 
-     # - name: Lowercase the repo name and username
-     #   run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
+      - name: Lowercase the repo name and username
+        run: echo "REPO=${GITHUB_REPOSITORY,,}" >>${GITHUB_ENV}
 
       - name: Build and push container image to registry
         uses: docker/build-push-action@v2
