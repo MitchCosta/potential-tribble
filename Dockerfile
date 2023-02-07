@@ -1,5 +1,14 @@
-# Add a new comment to trigger build.
-# Basic nginx dockerfile starting with Ubuntu 20.04
-FROM ubuntu:20.04
-RUN apt-get -y update
-RUN apt-get -y install nginx
+# Pull the minimal Ubuntu image
+FROM ubuntu
+
+# Install Nginx
+RUN apt-get -y update && apt-get -y install nginx
+
+# Copy the Nginx config
+COPY default /etc/nginx/sites-available/default
+
+# Expose the port for access
+EXPOSE 80/tcp
+
+# Run the Nginx server
+CMD ["/usr/sbin/nginx", "-g", "daemon off;"]
